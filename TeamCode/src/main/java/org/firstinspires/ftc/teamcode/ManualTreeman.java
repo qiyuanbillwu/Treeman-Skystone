@@ -124,7 +124,7 @@ public class ManualTreeman extends LinearOpMode {
             currentAngle = imu.getHeading();
             // Setup a variable for each drive wheel to save power level for telemetry
 
-            double drive = -gamepad1.left_stick_y;
+            double drive = gamepad1.left_stick_y;
             double slide_left = gamepad1.left_trigger;
             double slide_right = gamepad1.right_trigger;
             double turn = 0.65 * -gamepad1.right_stick_x;

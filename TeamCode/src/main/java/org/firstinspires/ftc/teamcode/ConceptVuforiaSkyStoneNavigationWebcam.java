@@ -103,7 +103,11 @@ public class ConceptVuforiaSkyStoneNavigationWebcam extends LinearOpMode {
      * and paste it in to your code on the next line, between the double quotes.
      */
     private static final String VUFORIA_KEY =
-            "AbIs3zX/////AAABmW18z6hIVUb8v9UqVroA/sB9vPF6KSi0S3SOt0PPR23Hg85RfenmDj/G3gL1lD6u9iaYFdL3uCkLrJqm1A9gwyb8Y95GcSXpJPyGXcdmm9NjfY6Fc5RxxkfvgqZjvrKPfg69sitWE3K3GwPHVJFXEBS/7pHJvvvwx6o6m5xXBiRprwK3zMBfeAj0YJtIHj0ysmgAITz7mmTav1OvO/QsFv4MJoDM0dLm8f9d215z9qFOzQNNO/eNvPXh22i5yD3u12BA7UiGTGQBlMIerSBYo7CM8soLKU7J8PR1qAH+Bprupbx+FmPzaq6J+b2ZCMhru8aI9Wq7GZGYT7M+2qcArBOZi4XWyPMKZhOEpYIlo+Mf";
+            "AbIs3zX/////AAABmW18z6hIVUb8v9UqVroA/sB9vPF6KSi0S3SOt0PPR23Hg85RfenmDj/G3gL1lD6u9iaYFd" +
+                    "L3uCkLrJqm1A9gwyb8Y95GcSXpJPyGXcdmm9NjfY6Fc5RxxkfvgqZjvrKPfg69sitWE3K3GwPHVJFX" +
+                    "EBS/7pHJvvvwx6o6m5xXBiRprwK3zMBfeAj0YJtIHj0ysmgAITz7mmTav1OvO/QsFv4MJoDM0dLm8f" +
+                    "9d215z9qFOzQNNO/eNvPXh22i5yD3u12BA7UiGTGQBlMIerSBYo7CM8soLKU7J8PR1qAH+Bprupbx+" +
+                    "FmPzaq6J+b2ZCMhru8aI9Wq7GZGYT7M+2qcArBOZi4XWyPMKZhOEpYIlo+Mf";
 
     // Since ImageTarget trackables use mm to specifiy their dimensions, we must use mm for all the physical dimension.
     // We will define some constants and conversions here
