@@ -9,9 +9,9 @@ import com.qualcomm.robotcore.util.Range;
  */
 public class MecanumDrive {
     public DcMotor leftFrontDrive = null;
-    public DcMotor leftRearDrive = null;
+    public DcMotor leftBackDrive = null;
     public DcMotor rightFrontDrive = null;
-    public DcMotor rightRearDrive = null;
+    public DcMotor rightBackDrive = null;
 
     public ElapsedTime timer = new ElapsedTime();
     public int runMillSecs = -1;
@@ -20,26 +20,26 @@ public class MecanumDrive {
     private double goAngleThres = 5;
 
     private double leftFrontPower;
-    private double leftRearPower;
+    private double leftBackPower;
     private double rightFrontPower;
-    private double rightRearPower;
+    private double rightBackPower;
 
     public void init(DcMotor leftFront, DcMotor leftRear, DcMotor rightFront, DcMotor rightRear) {
 
         leftFrontDrive = leftFront;
-        leftRearDrive = leftRear;
+        leftBackDrive = leftRear;
         rightFrontDrive = rightFront;
-        rightRearDrive = rightRear;
+        rightBackDrive = rightRear;
 
-        leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        leftRearDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightRearDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
 
         leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftRearDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightRearDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
 
@@ -57,15 +57,15 @@ public class MecanumDrive {
 //            y = 0;
 //        }
 //
-        leftFrontPower = y + x + yaw;
-        leftRearPower = -y - x + yaw;
-        rightFrontPower = -y + x + yaw;
-        rightRearPower = y - x + yaw;
+        leftFrontPower = y + x + yaw; //-y because reverse direction
+        leftBackPower = y - x + yaw; //-y because reverse direction
+        rightFrontPower = y - x - yaw;
+        rightBackPower = y + x - yaw;
 
         rightFrontPower = Range.clip(rightFrontPower, -1, 1);
         leftFrontPower = Range.clip(leftFrontPower, -1, 1);
-        leftRearPower = Range.clip(leftRearPower, -1, 1);
-        rightRearPower = Range.clip(rightRearPower, -1, 1);
+        leftBackPower = Range.clip(leftBackPower, -1, 1);
+        rightBackPower = Range.clip(rightBackPower, -1, 1);
 
         // write the values to the motors
         //loop();
@@ -171,8 +171,8 @@ public class MecanumDrive {
 
         rightFrontDrive.setPower(rightFrontPower);
         leftFrontDrive.setPower(leftFrontPower);
-        rightRearDrive.setPower(leftRearPower);
-        leftRearDrive.setPower(rightRearPower);
+        rightBackDrive.setPower(rightBackPower);
+        leftBackDrive.setPower(leftBackPower);
 
 
     }

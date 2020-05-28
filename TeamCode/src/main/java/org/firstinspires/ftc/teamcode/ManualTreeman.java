@@ -33,6 +33,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -80,13 +81,13 @@ public class ManualTreeman extends LinearOpMode {
 
         ElapsedTime timer = new ElapsedTime();
 
-        DcMotor leftFrontDrive = hardwareMap.get(DcMotor.class, "lf");
-        DcMotor leftRearDrive = hardwareMap.get(DcMotor.class, "lr");
-        DcMotor rightFrontDrive = hardwareMap.get(DcMotor.class, "rf");
-        DcMotor rightRearDrive = hardwareMap.get(DcMotor.class, "rr");
+        DcMotor leftFrontDrive = hardwareMap.get(DcMotor.class, "left front");
+        DcMotor leftBackDrive = hardwareMap.get(DcMotor.class, "left back");
+        DcMotor rightFrontDrive = hardwareMap.get(DcMotor.class, "right front");
+        DcMotor rightBackDrive = hardwareMap.get(DcMotor.class, "right back");
 
-        DcMotor intakeLeft = hardwareMap.get(DcMotor.class, "inl");
-        DcMotor intakeRight = hardwareMap.get(DcMotor.class, "inr");
+        DcMotor intakeLeft = hardwareMap.get(DcMotor.class, "intake left");
+        DcMotor intakeRight = hardwareMap.get(DcMotor.class, "intake right");
         DcMotor arm = hardwareMap.get(DcMotor.class, "arm");
         DcMotor liftMotor = hardwareMap.get(DcMotor.class, "lift");
 
@@ -99,7 +100,7 @@ public class ManualTreeman extends LinearOpMode {
         imu.order = AxesOrder.YZX;
 
         md = new MecanumDrive();
-        md.init(leftFrontDrive, leftRearDrive, rightFrontDrive, rightRearDrive);
+        md.init(leftFrontDrive, leftBackDrive, rightFrontDrive, rightBackDrive);
         intake = new IntakeSystem();
         intake.init(intakeLeft, intakeRight);
         liftSystem = new LiftSystem();
@@ -124,10 +125,10 @@ public class ManualTreeman extends LinearOpMode {
             currentAngle = imu.getHeading();
             // Setup a variable for each drive wheel to save power level for telemetry
 
-            double drive = gamepad1.left_stick_y;
+            double drive = -gamepad1.left_stick_y; // - because stick_y is in reverse direction
             double slide_left = gamepad1.left_trigger;
             double slide_right = gamepad1.right_trigger;
-            double turn = 0.65 * -gamepad1.right_stick_x;
+            double turn = 0.65 * gamepad1.right_stick_x;
             boolean ingest = gamepad2.left_bumper;
             boolean egest = gamepad2.right_bumper;
 
@@ -136,17 +137,15 @@ public class ManualTreeman extends LinearOpMode {
 
             boolean foundationClaw_a = gamepad2.a;
             boolean foundationClaw_b = gamepad2.b;
-//            boolean clawOpen = gamepad2.x;
-//            boolean clawClose = gamepad2.y;
             boolean clawChange = gamepad2.x;
             double armPower = gamepad2.right_stick_y;
 
             double slide = 0.0;
 
             if (slide_left > 0) {
-                slide = 0.7;
-            } else if (slide_right > 0) {
                 slide = -0.7;
+            } else if (slide_right > 0) {
+                slide = 0.7;
             }
 
             md.drive(drive, slide, turn);
@@ -212,6 +211,7 @@ public class ManualTreeman extends LinearOpMode {
                 arm.setPower(0);
             }
 
+            telemetry.addData("x:", gamepad1.left_stick_x);
             telemetry.addData("driveX:driveY:driveYaw:", " " + slide_left + " " + drive + " " + turn);
             telemetry.addData("clawPosition:", " " + clawPosition);
             telemetry.addData("imu:", "h:" + imu.getHeading() + " p:" + imu.getPitch() + " r:" + imu.getRoll());
