@@ -72,6 +72,8 @@ public class ManualTreeman extends LinearOpMode {
     private Servo s1 = null;
     private Servo s2 = null;
     private Servo claw = null;
+    private Servo elbow = null;
+    private Servo zhua = null;
     double currentAngle = 0;
 
     @Override
@@ -89,12 +91,14 @@ public class ManualTreeman extends LinearOpMode {
         DcMotor intakeLeft = hardwareMap.get(DcMotor.class, "intake left");
         DcMotor intakeRight = hardwareMap.get(DcMotor.class, "intake right");
         DcMotor arm = hardwareMap.get(DcMotor.class, "arm");
-        DcMotor liftMotor = hardwareMap.get(DcMotor.class, "lift");
+        DcMotor lift = hardwareMap.get(DcMotor.class, "lift");
 
         s1 = hardwareMap.get(Servo.class, "s1");
         s2 = hardwareMap.get(Servo.class, "s2");
         claw = hardwareMap.get(Servo.class, "c");
 
+        elbow = hardwareMap.get(Servo.class, "elbow");
+        zhua = hardwareMap.get(Servo.class, "zhua");
 
         imu = new IMUSystem(hardwareMap.get(BNO055IMU.class, "imu"));
         imu.order = AxesOrder.YZX;
@@ -104,7 +108,7 @@ public class ManualTreeman extends LinearOpMode {
         intake = new IntakeSystem();
         intake.init(intakeLeft, intakeRight);
         liftSystem = new LiftSystem();
-        liftSystem.init(liftMotor);
+        liftSystem.init(lift);
 
         fClaw = new FoundationClawSystem();
         fClaw.init(s1, s2);
@@ -141,6 +145,18 @@ public class ManualTreeman extends LinearOpMode {
             double armPower = gamepad2.right_stick_y;
 
             double slide = 0.0;
+
+            if (gamepad1.a) {
+                zhua.setPosition(0.0);
+            } else if (gamepad1.b) {
+                zhua.setPosition(1.0);
+            }
+
+            if (gamepad1.x) {
+                elbow.setPosition(0.0);
+            } else if (gamepad1.y) {
+                elbow.setPosition(1.0);
+            }
 
             if (slide_left > 0) {
                 slide = -0.7;

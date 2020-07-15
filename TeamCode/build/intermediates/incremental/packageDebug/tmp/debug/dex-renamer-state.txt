@@ -1,4 +1,0 @@
-#Thu May 28 17:52:23 CST 2020
-base.0=/Users/bill/Desktop/8515Skystone/TeamCode/build/intermediates/dex/debug/mergeDexDebug/out
-path.0=classes.dex
-renamed.0=classes.dex
