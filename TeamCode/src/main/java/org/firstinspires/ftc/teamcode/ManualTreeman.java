@@ -95,7 +95,7 @@ public class ManualTreeman extends LinearOpMode {
 
         s1 = hardwareMap.get(Servo.class, "s1");
         s2 = hardwareMap.get(Servo.class, "s2");
-        claw = hardwareMap.get(Servo.class, "c");
+        claw = hardwareMap.get(Servo.class, "claw");
 
         elbow = hardwareMap.get(Servo.class, "elbow");
         zhua = hardwareMap.get(Servo.class, "zhua");
@@ -142,20 +142,27 @@ public class ManualTreeman extends LinearOpMode {
             boolean foundationClaw_a = gamepad2.a;
             boolean foundationClaw_b = gamepad2.b;
             boolean clawChange = gamepad2.x;
-            double armPower = gamepad2.right_stick_y;
+            boolean armIn = gamepad2.right_stick_y < -0.2;
+            boolean armOut = gamepad2.right_stick_y > 0.2;
 
             double slide = 0.0;
 
-            if (gamepad1.a) {
-                zhua.setPosition(0.0);
-            } else if (gamepad1.b) {
-                zhua.setPosition(1.0);
+            if (gamepad2.x) {
+                claw.setPosition(0.6);
+            } else if (gamepad2.y) {
+                claw.setPosition(1.0);
             }
 
             if (gamepad1.x) {
-                elbow.setPosition(0.0);
+                zhua.setPosition(0.0);
             } else if (gamepad1.y) {
+                zhua.setPosition(1.0);
+            }
+
+            if (gamepad1.a) {
                 elbow.setPosition(1.0);
+            } else if (gamepad1.b) {
+                elbow.setPosition(0.5);
             }
 
             if (slide_left > 0) {
@@ -207,30 +214,31 @@ public class ManualTreeman extends LinearOpMode {
 ////                clawTime = timer.milliseconds();
 //            }
 
-            if (clawChange && timer.milliseconds() - clawTime > 500) {
-                if (clawPosition == clawPosOpen) {
-                    clawPosition = clawPosClose;
-                    clawTime = timer.milliseconds();
-                } else {
-                    clawPosition = clawPosOpen;
-                    clawTime = timer.milliseconds();
-                }
-            }
+//            if (clawChange && timer.milliseconds() - clawTime > 500) {
+//                if (clawPosition == clawPosOpen) {
+//                    clawPosition = clawPosClose;
+//                    clawTime = timer.milliseconds();
+//                } else {
+//                    clawPosition = clawPosOpen;
+//                    clawTime = timer.milliseconds();
+//                }
+//            }
 
-            claw.setPosition(clawPosition);
+//            claw.setPosition(clawPosition);
 
-            if (armPower > 0.1) {
+            if (armIn) {
                 arm.setPower(0.5);
-            } else if (armPower < -0.1) {
+            } else if (armOut) {
                 arm.setPower(-0.5);
             } else {
                 arm.setPower(0);
             }
 
-            telemetry.addData("x:", gamepad1.left_stick_x);
-            telemetry.addData("driveX:driveY:driveYaw:", " " + slide_left + " " + drive + " " + turn);
-            telemetry.addData("clawPosition:", " " + clawPosition);
-            telemetry.addData("imu:", "h:" + imu.getHeading() + " p:" + imu.getPitch() + " r:" + imu.getRoll());
+//            telemetry.addData("x:", gamepad1.left_stick_x);
+//            telemetry.addData("driveX:driveY:driveYaw:", " " + slide_left + " " + drive + " " + turn);
+//            telemetry.addData("clawPosition:", " " + clawPosition);
+//            telemetry.addData("imu:", "h:" + imu.getHeading() + " p:" + imu.getPitch() + " r:" + imu.getRoll());
+            telemetry.addData("arm:", gamepad2.right_stick_y);
             telemetry.update();
         }
     }

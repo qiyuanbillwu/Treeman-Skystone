@@ -8,7 +8,7 @@ public class IntakeSystem {
     public DcMotor motorLeft;
     public DcMotor motorRiht;
 
-    public double intakePower = 1;
+    public double intakePower = 0.6;
 
     public void init(DcMotor motorLeft, DcMotor motorRiht){
         this.motorLeft = motorLeft;
